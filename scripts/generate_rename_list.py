@@ -73,6 +73,9 @@ for mapping in nsmap:
 for old_ns_tuple in ns_dict.keys():
     if old_ns_tuple in ns_old_new_map:
         continue
+
+    # stepwise dict lookup:
+    # if ("aaa", "bbb", "ccc") is not found in ns_old_new_map, try ("aaa", "bbb")
     L = len(old_ns_tuple)
     for i in range(L):
         k = i + 1
@@ -88,16 +91,18 @@ for old_ns_tuple in ns_dict.keys():
         # ensure that we terminated with a match
         assert new is not None
 
-# list of 2-tuples of paths
-final_map = []
 final_str_list = []
 for ns, filelist in ns_dict.items():
     new_ns = ns_old_new_map[ns]
 
+    if new_ns == ns:
+        # omit unchanged (sub-)namespaces
+        print("omit:", ns)
+        continue
+
     for file in filelist:
         path_old = os.sep.join(ns + (file,))
         path_new = os.sep.join(new_ns + (file,))
-        final_map.append((path_old, path_new))
 
         tmp = "{:<80s} -> {}\n".format(path_old, path_new)
         final_str_list.append(tmp)
