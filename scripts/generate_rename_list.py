@@ -14,13 +14,10 @@ This file is aimed to be the input data for a script which actually performs the
 import os
 from collections import defaultdict
 
+# noinspection PyUnresolvedReferences
 from ipydex import IPS, activate_ips_on_exception
+from conf import filelistpath, nsmappath, resfilepath
 activate_ips_on_exception()
-
-
-filelistpath = "../data/allfiles.txt"
-nsmappath = "../data/nsmap.txt"
-resfilepath = "../data/final_rename_list.txt"
 
 
 with open(filelistpath) as txtfile:
